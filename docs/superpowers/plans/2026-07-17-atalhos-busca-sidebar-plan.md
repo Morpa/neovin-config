@@ -139,7 +139,7 @@ Arquivo já foi salvo pelo editor de texto/Edit tool — sem commit (repo não �
 
 **Interfaces:** Nenhuma (arquivo de dados lido pelo plugin `cheatsheet.nvim` via `:Cheatsheet`; formato é `Descrição | comando-ou-tecla`, uma entrada por linha, agrupada em seções `## nome @tag1 @tag2`).
 
-- [ ] **Step 1: Remover a entrada duplicada de busca de arquivo**
+- [x] **Step 1: Remover a entrada duplicada de busca de arquivo**
 
 Na seção `## arquivos-e-projeto`, remova:
 
@@ -147,7 +147,7 @@ Na seção `## arquivos-e-projeto`, remova:
 Buscar arquivo pelo nome (alternativa) | <leader>ff
 ```
 
-- [ ] **Step 2: Remover a entrada duplicada de busca no projeto**
+- [x] **Step 2: Remover a entrada duplicada de busca no projeto**
 
 Na mesma seção, remova:
 
@@ -155,7 +155,7 @@ Na mesma seção, remova:
 Buscar texto em todo o projeto (alternativa) | <leader>fg
 ```
 
-- [ ] **Step 3: Remover a entrada duplicada da árvore de arquivos**
+- [x] **Step 3: Remover a entrada duplicada da árvore de arquivos**
 
 Na mesma seção, remova:
 
@@ -165,7 +165,7 @@ Mostrar/esconder árvore de arquivos (alternativa) | <leader>e
 
 (A linha `Mostrar/esconder árvore de arquivos (Cmd+B) | :Neotree toggle` também será atualizada na Task 4, quando o comando deixar de ser `:Neotree toggle`. Aqui só remova a duplicata.)
 
-- [ ] **Step 4: Consolidar a entrada de comentar linha**
+- [x] **Step 4: Consolidar a entrada de comentar linha**
 
 Troque:
 
@@ -175,7 +175,7 @@ Comentar/descomentar linha ou seleção (Cmd+/, ou space / se o teclado for ABNT
 
 Não muda — essa linha já está no formato de entrada única (o texto entre parênteses já documenta a exceção ABNT sem duplicar a linha inteira). Pule este step sem alterações; ele existe só pra confirmar, na revisão, que essa entrada não precisa de mudança.
 
-- [ ] **Step 5: Remover a entrada duplicada do painel de git**
+- [x] **Step 5: Remover a entrada duplicada do painel de git**
 
 Na seção `## git`, remova:
 
@@ -183,7 +183,7 @@ Na seção `## git`, remova:
 Abrir painel de git completo (alternativa) | <leader>gg
 ```
 
-- [ ] **Step 6: Verificar o arquivo final**
+- [x] **Step 6: Verificar o arquivo final**
 
 Rode:
 
@@ -195,9 +195,9 @@ Expected: nenhuma linha retornada (todas as entradas "(alternativa)" foram remov
 
 Abra o Neovim (`nvim` — com o symlink do Setup, já é a config ativa) e rode `:Cheatsheet`, digite "arquivo" e confirme que aparecem as entradas sem duplicata.
 
-- [ ] **Step 7: Salvar**
+- [x] **Step 7: Salvar**
 
-Sem commit (repo não é git) — arquivo já salvo pelo editor.
+Commit realizado: 9bdf258
 
 ---
 

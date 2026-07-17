@@ -4,15 +4,12 @@
 
 ## arquivos-e-projeto @files @project
 Buscar arquivo pelo nome (Cmd+P) | :Telescope find_files
-Buscar arquivo pelo nome (alternativa) | <leader>ff
 Buscar dentro do arquivo atual (Cmd+F) | :Telescope current_buffer_fuzzy_find
 Buscar texto em todo o projeto (Cmd+Shift+F) | :Telescope live_grep
-Buscar texto em todo o projeto (alternativa) | <leader>fg
 Paleta de comandos (Cmd+Shift+P) | :Telescope commands
 Arquivos recentes | <leader>fr
 Buscar entre buffers abertos | <leader>fb
 Mostrar/esconder árvore de arquivos (Cmd+B) | :Neotree toggle
-Mostrar/esconder árvore de arquivos (alternativa) | <leader>e
 Editar arquivos como texto (oil) | -
 
 ## abas-e-buffers @tabs @buffers
@@ -61,7 +58,6 @@ Fechar o menu sem confirmar | <C-e>
 
 ## git @git
 Abrir painel de git completo (Neogit, Cmd+Shift+G) | :Neogit
-Abrir painel de git completo (alternativa) | <leader>gg
 Status do git estilo :Git (fugitive) | :Git
 Preview do hunk de git na linha atual | :Gitsigns preview_hunk
 Alternar git blame da linha atual | :Gitsigns toggle_current_line_blame
