@@ -1,7 +1,7 @@
 -- Catppuccin: único colorscheme da config (flavour "mocha", escuro). Além de
 -- colorir o editor, integra nativamente com quase todos os outros plugins
 -- (snacks, cmp, telescope, which-key, gitsigns, bufferline, treesitter,
--- LSP, Mason, indent-blankline...) e aplica as cores do tema também nos
+-- LSP, Mason...) e aplica as cores do tema também nos
 -- ícones (nvim-web-devicons), então não precisa de um tema de ícones à parte.
 return {
   {
@@ -34,7 +34,6 @@ return {
           },
         },
         mason = true,
-        indent_blankline = { enabled = true },
         bufferline = true,
         illuminate = true,
       },

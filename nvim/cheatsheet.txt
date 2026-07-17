@@ -41,6 +41,7 @@ Ações de código (code action) | <leader>ca
 Próximo diagnóstico | ]d
 Diagnóstico anterior | [d
 Lista de diagnósticos (Trouble) | <leader>xx
+Ligar/desligar o dim (escurece fora do escopo atual) | <leader>ud
 
 ## copilot @copilot @ai
 Aceitar sugestão fantasma inteira | <Tab>

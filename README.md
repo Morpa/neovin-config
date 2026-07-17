@@ -151,6 +151,7 @@ O resto da lista abaixo é referência — não precisa memorizar, só volta aqu
 | `space c a` | Ações de código (code action) |
 | `]d` / `[d` | Próximo / anterior diagnóstico |
 | `space x x` | Lista de diagnósticos (Trouble) |
+| `space u d` | Ligar/desligar o "dim" (escurece código fora do escopo atual) |
 
 ### Autocomplete (nvim-cmp)
 | Atalho | Ação |
@@ -218,7 +219,7 @@ O resto da lista abaixo é referência — não precisa memorizar, só volta aqu
 O tema é o **Catppuccin** (flavour `mocha`, escuro) — único colorscheme
 instalado, com integração nativa em quase todos os plugins (snacks, cmp,
 telescope, which-key, gitsigns, bufferline, treesitter, LSP, Mason,
-indent-blankline) e também nos ícones de arquivo (`nvim-web-devicons`).
+indent/dim/words do snacks.nvim) e também nos ícones de arquivo (`nvim-web-devicons`).
 
 Pra trocar de flavour (`latte`, `frappe`, `macchiato`, `mocha`):
 ```vim

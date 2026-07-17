@@ -70,10 +70,25 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
+    config = function(_, opts)
+      require("snacks").setup(opts)
+      -- Registra o atalho de liga/desliga do dim (usa o helper de toggle do
+      -- próprio snacks, que também mostra a descrição no which-key).
+      Snacks.toggle.dim():map("<leader>ud")
+    end,
     opts = {
       explorer = {
         replace_netrw = true, -- abre sozinho no lugar do netrw ao iniciar numa pasta
       },
+      -- Guias de indentação (substitui o indent-blankline.nvim), com a guia
+      -- do escopo/bloco atual destacada.
+      indent = {},
+      -- Escurece o código fora do escopo atual quando ligado; começa
+      -- desligado, liga/desliga com <leader>ud (ver keymap abaixo).
+      dim = {},
+      -- Destaca automaticamente outras ocorrências do símbolo sob o cursor
+      -- (via LSP document highlight), sem precisar apertar nada.
+      words = {},
     },
     keys = {
       { "<D-b>", toggle_explorer, desc = "Alternar painel de arquivos (Cmd+B)" },
