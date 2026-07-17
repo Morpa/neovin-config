@@ -1,0 +1,106 @@
+# Cheat sheet pessoal desta config de Neovim.
+# Abra com :Cheatsheet ou <leader>?  — busca fuzzy pelo texto à esquerda.
+# Formato: "Descrição | comando-ou-tecla"
+
+## arquivos-e-projeto @files @project
+Buscar arquivo pelo nome (Cmd+P) | :Telescope find_files
+Buscar arquivo pelo nome (alternativa) | <leader>ff
+Buscar dentro do arquivo atual (Cmd+F) | :Telescope current_buffer_fuzzy_find
+Buscar texto em todo o projeto (Cmd+Shift+F) | :Telescope live_grep
+Buscar texto em todo o projeto (alternativa) | <leader>fg
+Paleta de comandos (Cmd+Shift+P) | :Telescope commands
+Arquivos recentes | <leader>fr
+Buscar entre buffers abertos | <leader>fb
+Mostrar/esconder árvore de arquivos (Cmd+B) | :Neotree toggle
+Mostrar/esconder árvore de arquivos (alternativa) | <leader>e
+Editar arquivos como texto (oil) | -
+
+## abas-e-buffers @tabs @buffers
+Ir direto para a aba N (Cmd+1 até Cmd+9) | <D-1>
+Próxima aba | <S-l>
+Aba anterior | <S-h>
+Fechar buffer atual | <leader>bd
+Fechar aba/janela do terminal (Cmd+W, feito pelo Ghostty) | cmd+w
+
+## edicao @editing
+Comentar/descomentar linha ou seleção (Cmd+/, ou space / se o teclado for ABNT) | gcc
+Salvar arquivo (Cmd+S) | :w
+Desfazer (Cmd+Z) | u
+Refazer (Cmd+Shift+Z) | <C-r>
+Selecionar próxima ocorrência / multi-cursor (Cmd+D) | <D-d>
+Mover linha (ou seleção) pra cima | <M-Up>
+Mover linha (ou seleção) pra baixo | <M-Down>
+Duplicar linha (ou seleção) pra baixo | <M-S-Down>
+Indentar seleção (Cmd+]) | >gv
+Desindentar seleção (Cmd+[) | <gv
+Fechamento automático de parênteses/chaves/aspas (autopairs) | {  (  [  "  '
+
+## lsp-e-codigo @lsp @code
+Ir para definição | gd
+Ver referências | gr
+Ver documentação (hover) | K
+Renomear símbolo | <leader>rn
+Ações de código (code action) | <leader>ca
+Próximo diagnóstico | ]d
+Diagnóstico anterior | [d
+Lista de diagnósticos (Trouble) | <leader>xx
+
+## copilot @copilot @ai
+Aceitar sugestão fantasma inteira | <Tab>
+Próxima sugestão alternativa | <C-]>
+Sugestão alternativa anterior | <C-[>
+Descartar sugestão atual | <C-e>
+Autenticar o Copilot (uma vez por máquina) | :Copilot auth
+
+## autocomplete @completion @cmp
+Navegar pro próximo item do menu | <C-n>
+Navegar pro item anterior do menu | <C-p>
+Confirmar item selecionado | <CR>
+Forçar abrir o menu de sugestões | <C-Space>
+Fechar o menu sem confirmar | <C-e>
+
+## git @git
+Abrir painel de git completo (Neogit, Cmd+Shift+G) | :Neogit
+Abrir painel de git completo (alternativa) | <leader>gg
+Status do git estilo :Git (fugitive) | :Git
+Preview do hunk de git na linha atual | :Gitsigns preview_hunk
+Alternar git blame da linha atual | :Gitsigns toggle_current_line_blame
+Dentro do Neogit: dar stage no arquivo/hunk | s
+Dentro do Neogit: tirar do stage | u
+Dentro do Neogit: descartar mudanças | x
+Dentro do Neogit: abrir caixa de commit | c
+Dentro do Neogit: push | p
+
+## testes @test @vim-test
+Rodar o teste mais próximo do cursor | <leader>tt
+Rodar todos os testes do arquivo atual | <leader>tf
+Rodar a suíte de testes inteira | <leader>ta
+Repetir o último teste rodado | <leader>tl
+Ir para o arquivo de teste correspondente | <leader>tv
+
+## terminal @terminal
+Abrir/esconder terminal (toggleterm) | :ToggleTerm
+Sair do modo de digitação dentro do terminal | <Esc>
+
+## janelas-e-splits @windows @splits
+Mover entre janelas: esquerda/baixo/cima/direita | <C-h> <C-j> <C-k> <C-l>
+Split vertical (lado a lado) | <leader>|
+Split horizontal (em cima/embaixo) | <leader>-
+Fechar janela | <leader>q
+
+## plugins-e-manutencao @maintenance @lazy
+Sincronizar/atualizar todos os plugins | :Lazy sync
+Ver status dos plugins (lazy.nvim) | :Lazy
+Instalar/gerenciar LSPs e formatters | :Mason
+Diagnóstico de saúde do Neovim e plugins | :checkhealth
+Atualizar parsers do treesitter | :TSUpdate
+
+## tema-e-aparencia @theme @colorscheme
+Trocar de flavour do catppuccin (ex: latte, frappe, macchiato, mocha) | :colorscheme catppuccin-mocha
+
+## backup-desta-config @backup @dotfiles
+Copiar a config atual pro repositório de backup | rsync -a --delete ~/.config/nvim/ ~/Documents/DEV/nvim-config/nvim/
+
+## problemas-conhecidos @troubleshooting @abnt
+Cmd+/ abre a busca do menu Help em vez de comentar (teclado ABNT) | use space / (sempre funciona)
+Corrigir de vez: liberar o atalho no Ghostty | Ajustes do Sistema > Teclado > Atalhos de Teclado > Atalhos de App > Ghostty > Search
