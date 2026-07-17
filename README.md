@@ -93,7 +93,7 @@ O resto da lista abaixo é referência — não precisa memorizar, só volta aqu
 | Atalho | Ação |
 |---|---|
 | `Cmd+P` | Buscar arquivo pelo nome |
-| `Cmd+F` | Buscar dentro do arquivo atual |
+| `Cmd+F` | Buscar dentro do arquivo atual (fuzzy) |
 | `Cmd+Shift+F` | Buscar texto em todo o projeto |
 | `Cmd+Shift+P` | Paleta de comandos |
 | `Cmd+B` | Mostrar/esconder árvore de arquivos |
