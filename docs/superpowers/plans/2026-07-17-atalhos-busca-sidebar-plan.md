@@ -213,7 +213,7 @@ Commit realizado: 9bdf258
 - Consome: `opt.incsearch` e `opt.hlsearch`, já `true` em `nvim/lua/config/options.lua:34-35` (nenhuma mudança necessária nesse arquivo — só confirmar na Step 1).
 - Produz: `Cmd+F` (`<D-f>` em modo normal) abre busca nativa (`/`) em vez de popup do Telescope. `n`/`N` passam a acionar também `require("hlslens").start()` pra atualizar o contador de ocorrências.
 
-- [ ] **Step 1: Confirmar que incsearch/hlsearch já estão ligados**
+- [x] **Step 1: Confirmar que incsearch/hlsearch já estão ligados**
 
 Rode:
 
@@ -229,7 +229,7 @@ Expected:
 
 Se por acaso estiver `false` em algum dos dois, troque pra `true` agora. (Na config atual, já é `true` — nenhuma mudança esperada aqui.)
 
-- [ ] **Step 2: Criar o plugin `nvim-hlslens`**
+- [x] **Step 2: Criar o plugin `nvim-hlslens`**
 
 Crie `nvim/lua/plugins/hlslens.lua`:
 
@@ -246,7 +246,7 @@ return {
 }
 ```
 
-- [ ] **Step 3: Rodar sync do lazy.nvim pra instalar o plugin novo**
+- [x] **Step 3: Rodar sync do lazy.nvim pra instalar o plugin novo**
 
 Com o symlink do Setup em vigor, rode:
 
@@ -256,7 +256,14 @@ nvim --headless "+Lazy! sync" +qa
 
 Expected: sem erro na saída; `kevinhwang91/nvim-hlslens` aparece instalado em `nvim --headless "+Lazy! sync" +qa` (ou verifique depois com `:Lazy` dentro do Neovim, procurando "nvim-hlslens" na lista).
 
-- [ ] **Step 4: Trocar o mapeamento de `Cmd+F` em `keymaps.lua`**
+> **Nota pós-execução:** o `Lazy! sync` desta task também bumpou, de forma
+> colateral, o commit fixado do `nvim-lspconfig` (não relacionado a esta
+> task) em `nvim/lazy-lock.json`. Corrigido revertendo só a linha do
+> `nvim-lspconfig` no lock file e rodando `Lazy! restore` pra recolocar o
+> plugin instalado em disco no commit fixado original, mantendo o
+> `nvim-hlslens` novo intacto. Ver commit `1480c04`.
+
+- [x] **Step 4: Trocar o mapeamento de `Cmd+F` em `keymaps.lua`**
 
 Em `nvim/lua/config/keymaps.lua`, troque a linha (atualmente linha 73):
 
@@ -270,7 +277,7 @@ por:
 map("n", "<D-f>", "/", { desc = "Buscar no arquivo atual, inline (Cmd+F)" })
 ```
 
-- [ ] **Step 5: Adicionar `n`/`N` com contador do hlslens e `Esc` pra limpar destaque**
+- [x] **Step 5: Adicionar `n`/`N` com contador do hlslens e `Esc` pra limpar destaque**
 
 Logo abaixo da linha do Step 4 (ainda em `keymaps.lua`), adicione:
 
@@ -286,7 +293,7 @@ map("n", "N", [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('h
 map("n", "<Esc>", ":noh<CR>", { desc = "Limpar destaque de busca" })
 ```
 
-- [ ] **Step 6: Verificar sintaxe**
+- [x] **Step 6: Verificar sintaxe**
 
 ```bash
 nvim --headless -u nvim/init.lua -c 'qa!'
@@ -294,7 +301,7 @@ nvim --headless -u nvim/init.lua -c 'qa!'
 
 Expected: sem saída de erro.
 
-- [ ] **Step 7: Verificação manual da busca inline**
+- [ ] **Step 7: Verificação manual da busca inline** (pendente — requer humano abrindo o Neovim interativamente; não é verificável em modo headless)
 
 Abra um arquivo com texto repetido (ex: `nvim README.md`), aperte `Cmd+F`, digite uma palavra que apareça várias vezes (ex: `atalho`) e dê Enter. Confirme:
 - Todas as ocorrências ficam destacadas no próprio texto (sem popup cobrindo nada).
@@ -303,7 +310,7 @@ Abra um arquivo com texto repetido (ex: `nvim README.md`), aperte `Cmd+F`, digit
 - `Esc` limpa o destaque.
 - `Cmd+Shift+F` (busca no projeto inteiro) continua abrindo o Telescope normalmente, sem regressão.
 
-- [ ] **Step 8: Atualizar a linha de `Cmd+F` no README (tabela + "Primeiros dias")**
+- [x] **Step 8: Atualizar a linha de `Cmd+F` no README (tabela + "Primeiros dias")**
 
 Em `README.md`, na tabela `### Arquivos e projeto` (editada na Task 1), confirme/ajuste a linha pra:
 
@@ -326,7 +333,7 @@ Logo abaixo da tabela `### Arquivos e projeto`, adicione uma nota curta diferenc
 > não sabe em qual arquivo procurar.
 ```
 
-- [ ] **Step 9: Atualizar `nvim/cheatsheet.txt`**
+- [x] **Step 9: Atualizar `nvim/cheatsheet.txt`**
 
 Na seção `## arquivos-e-projeto`, troque:
 
@@ -340,9 +347,13 @@ por:
 Buscar dentro do arquivo atual, inline (Cmd+F, n/N navega, Esc limpa) | /
 ```
 
-- [ ] **Step 10: Salvar**
+- [x] **Step 10: Salvar**
 
-Sem commit (repo não é git) — arquivos já salvos pelo editor.
+~~Sem commit (repo não é git) — arquivos já salvos pelo editor.~~ Nota:
+o repo passou a ser git; commitado normalmente (`b850a8f` implementação +
+`1480c04` correção do lock file). Ver
+`.superpowers/sdd/task-3-report.md` para o relatório completo, incluindo
+a verificação manual (Step 7) ainda pendente por um humano.
 
 ---
 
