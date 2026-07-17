@@ -68,15 +68,35 @@ Telescope filtra em tempo real.
 as teclas Cmd chegam normalmente ao Neovim via protocolo de teclado do Kitty —
 não é mais um recurso exclusivo do Neovide.
 
+### Primeiros dias
+
+Antes de tentar decorar tudo, só isso já resolve 90% do dia a dia:
+
+| Atalho | Ação |
+|---|---|
+| `Cmd+P` | Buscar arquivo pelo nome |
+| `Cmd+Shift+F` | Buscar texto em todo o projeto |
+| `Cmd+F` | Buscar dentro do arquivo atual |
+| `Cmd+B` | Mostrar/esconder árvore de arquivos |
+| `Cmd+S` | Salvar arquivo |
+| `Cmd+Z` / `Cmd+Shift+Z` | Desfazer / refazer |
+| `Cmd+/` | Comentar/descomentar linha ou seleção |
+| `Cmd+Shift+G` | Abrir painel de git completo |
+| `space t` | Abrir/esconder terminal integrado |
+| `space t t` | Rodar o teste mais próximo do cursor |
+| `space ?` | Abrir a cheat sheet completa |
+| `space` (segurar ~1s) | Mostrar todos os atalhos disponíveis (which-key) |
+
+O resto da lista abaixo é referência — não precisa memorizar, só volta aqui (ou aperta `space` e espera, ou abre `:Cheatsheet`) quando precisar de algo específico.
+
 ### Arquivos e projeto
 | Atalho | Ação |
 |---|---|
 | `Cmd+P` | Buscar arquivo pelo nome |
-| `Cmd+F` | Buscar dentro do arquivo atual (fuzzy) |
+| `Cmd+F` | Buscar dentro do arquivo atual |
 | `Cmd+Shift+F` | Buscar texto em todo o projeto |
 | `Cmd+Shift+P` | Paleta de comandos |
 | `Cmd+B` | Mostrar/esconder árvore de arquivos |
-| `space e` | Alternar árvore de arquivos (alternativa) |
 | `space f r` | Arquivos recentes |
 | `space f b` | Buscar entre buffers abertos |
 | `-` | Editar arquivos/pastas como texto (oil.nvim) |
@@ -95,8 +115,7 @@ não é mais um recurso exclusivo do Neovide.
 ### Edição
 | Atalho | Ação |
 |---|---|
-| `Cmd+/` | Comentar/descomentar linha ou seleção |
-| `space /` | Comentar/descomentar (alternativa, sempre funciona) |
+| `Cmd+/` (ou `space /` em teclado ABNT) | Comentar/descomentar linha ou seleção |
 | `Cmd+S` | Salvar arquivo |
 | `Cmd+Z` | Desfazer |
 | `Cmd+Shift+Z` | Refazer |
@@ -150,7 +169,6 @@ não é mais um recurso exclusivo do Neovide.
 | Atalho | Ação |
 |---|---|
 | `Cmd+Shift+G` | Abrir painel de git completo (Neogit) |
-| `space g g` | Abrir painel de git completo (alternativa) |
 | `:Git` | Status de git estilo clássico (vim-fugitive) |
 | `s` | Dentro do Neogit: dar stage no arquivo/hunk |
 | `u` | Dentro do Neogit: tirar do stage |
