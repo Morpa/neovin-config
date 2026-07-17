@@ -4,7 +4,7 @@
 
 ## arquivos-e-projeto @files @project
 Buscar arquivo pelo nome (Cmd+P) | :Telescope find_files
-Buscar dentro do arquivo atual (Cmd+F) | :Telescope current_buffer_fuzzy_find
+Buscar dentro do arquivo atual, inline (Cmd+F, n/N navega, Esc limpa) | /
 Buscar texto em todo o projeto (Cmd+Shift+F) | :Telescope live_grep
 Paleta de comandos (Cmd+Shift+P) | :Telescope commands
 Arquivos recentes | <leader>fr

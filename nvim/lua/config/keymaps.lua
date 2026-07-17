@@ -70,9 +70,19 @@ map("v", "<leader>/", "gc", { desc = "Comentar/descomentar seleção", remap = t
 -- Cmd+P busca arquivo, Cmd+F busca dentro do arquivo atual, Cmd+Shift+F busca
 -- texto no projeto — igual ao Zed
 map("n", "<D-p>", ":Telescope find_files<CR>", { desc = "Buscar arquivo (Cmd+P)" })
-map("n", "<D-f>", ":Telescope current_buffer_fuzzy_find<CR>", { desc = "Buscar no arquivo atual (Cmd+F)" })
+map("n", "<D-f>", "/", { desc = "Buscar no arquivo atual, inline (Cmd+F)" })
 map("n", "<D-F>", ":Telescope live_grep<CR>", { desc = "Buscar texto no projeto (Cmd+Shift+F)" })
 map("n", "<D-P>", ":Telescope commands<CR>", { desc = "Paleta de comandos (Cmd+Shift+P)" })
+
+-- n/N navegam pra próxima/anterior ocorrência da busca; o hlslens só
+-- adiciona o contador "3/12" perto do cursor (o comportamento de navegação
+-- em si já é nativo do Vim).
+local hlslens_opts = { noremap = true, silent = true }
+map("n", "n", [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], hlslens_opts)
+map("n", "N", [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], hlslens_opts)
+
+-- Esc limpa o destaque da busca atual (:noh), além do comportamento normal do Esc
+map("n", "<Esc>", ":noh<CR>", { desc = "Limpar destaque de busca" })
 
 -- Cmd+B esconde/mostra a árvore de arquivos lateral
 map("n", "<D-b>", ":Neotree toggle<CR>", { desc = "Alternar árvore de arquivos (Cmd+B)" })

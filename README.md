@@ -76,7 +76,7 @@ Antes de tentar decorar tudo, só isso já resolve 90% do dia a dia:
 |---|---|
 | `Cmd+P` | Buscar arquivo pelo nome |
 | `Cmd+Shift+F` | Buscar texto em todo o projeto |
-| `Cmd+F` | Buscar dentro do arquivo atual |
+| `Cmd+F` | Buscar dentro do arquivo atual (`n`/`N` navega, `Esc` limpa) |
 | `Cmd+B` | Mostrar/esconder árvore de arquivos |
 | `Cmd+S` | Salvar arquivo |
 | `Cmd+Z` / `Cmd+Shift+Z` | Desfazer / refazer |
@@ -93,13 +93,18 @@ O resto da lista abaixo é referência — não precisa memorizar, só volta aqu
 | Atalho | Ação |
 |---|---|
 | `Cmd+P` | Buscar arquivo pelo nome |
-| `Cmd+F` | Buscar dentro do arquivo atual (fuzzy) |
+| `Cmd+F` | Buscar dentro do arquivo atual (inline: destaca no texto, `n`/`N` navega, `Esc` limpa) |
 | `Cmd+Shift+F` | Buscar texto em todo o projeto |
 | `Cmd+Shift+P` | Paleta de comandos |
 | `Cmd+B` | Mostrar/esconder árvore de arquivos |
 | `space f r` | Arquivos recentes |
 | `space f b` | Buscar entre buffers abertos |
 | `-` | Editar arquivos/pastas como texto (oil.nvim) |
+
+> `Cmd+F` busca só no arquivo aberto (inline, nativo do Vim). `Cmd+Shift+F`
+> busca em todo o projeto (Telescope, abre um popup com os resultados). Use
+> `Cmd+F` quando já sabe em que arquivo está o trecho; `Cmd+Shift+F` quando
+> não sabe em qual arquivo procurar.
 
 ### Abas / buffers
 | Atalho | Ação |
