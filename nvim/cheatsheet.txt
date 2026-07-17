@@ -9,7 +9,7 @@ Buscar texto em todo o projeto (Cmd+Shift+F) | :Telescope live_grep
 Paleta de comandos (Cmd+Shift+P) | :Telescope commands
 Arquivos recentes | <leader>fr
 Buscar entre buffers abertos | <leader>fb
-Mostrar/esconder árvore de arquivos (Cmd+B) | :Neotree toggle
+Mostrar/esconder árvore de arquivos (Cmd+B) | <D-b>
 Editar arquivos como texto (oil) | -
 
 ## abas-e-buffers @tabs @buffers

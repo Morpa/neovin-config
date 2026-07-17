@@ -88,8 +88,8 @@ vim.g.mapleader = " "        -- barra de espaço como tecla líder (padrão da m
 vim.g.maplocalleader = " "
 
 -- Título da janela/aba do terminal: em vez do nome do buffer com foco (ex: o
--- estranho "neo-tree filesystem [1]" quando o cursor está no painel de
--- arquivos), sempre mostra o nome da pasta do projeto (cwd).
+-- nome interno do buffer do painel de arquivos lateral quando o cursor está
+-- nele), sempre mostra o nome da pasta do projeto (cwd).
 opt.title = true
 opt.titlestring = "%{fnamemodify(getcwd(), ':t')}"
 

@@ -1,7 +1,7 @@
 -- Alpha: tela inicial (dashboard) mostrada quando você abre `nvim` sem
 -- argumento nenhum — atalhos rápidos pra achar/recentemente abrir arquivos,
 -- em vez de uma tela em branco. Quando você abre uma pasta (`nvim .`), quem
--- assume a tela é o neo-tree (ver autocmd em ui.lua).
+-- assume a tela é o explorer do snacks.nvim (replace_netrw, ver ui.lua).
 return {
   "goolord/alpha-nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },

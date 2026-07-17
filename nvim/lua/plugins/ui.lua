@@ -1,3 +1,17 @@
+-- Fecha o painel do explorer se já estiver aberto (procurando a janela pelo
+-- filetype que o snacks.nvim usa pros seus buffers de picker/explorer);
+-- senão, abre. Dá o comportamento de "toggle" que Cmd+B e <leader>e esperam.
+local function toggle_explorer()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].filetype == "snacks_picker_list" then
+      vim.api.nvim_win_close(win, true)
+      return
+    end
+  end
+  Snacks.explorer()
+end
+
 return {
   -- Statusline (barra inferior com nome do arquivo, posição do cursor, git branch etc.)
   {
@@ -38,7 +52,7 @@ return {
           -- desenhando por cima dela em vez de começar depois
           offsets = {
             {
-              filetype = "neo-tree",
+              filetype = "snacks_picker_list",
               text = "Explorador de arquivos",
               highlight = "Directory",
               separator = true,
@@ -49,55 +63,22 @@ return {
     end,
   },
 
-  -- Painel de arquivos lateral (árvore do projeto), igual ao painel esquerdo do Zed.
-  -- Abre sozinho ao iniciar (sem precisar lembrar de nenhum atalho); <leader>e só
-  -- serve pra esconder/mostrar de novo caso você queira mais espaço na tela.
+  -- Painel de arquivos lateral (explorer do snacks.nvim), igual ao painel
+  -- esquerdo do Zed. Abre sozinho ao iniciar com `nvim <pasta>`
+  -- (replace_netrw); Cmd+B / <leader>e alternam mostrar/esconder.
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
+    "folke/snacks.nvim",
+    priority = 1000,
     lazy = false,
-    keys = { { "<leader>e", ":Neotree toggle<CR>", desc = "Alternar painel de arquivos" } },
-    config = function()
-      require("neo-tree").setup({
-        close_if_last_window = true,
-        filesystem = {
-          follow_current_file = { enabled = true }, -- destaca o arquivo aberto na árvore
-          use_libuv_file_watcher = true,             -- atualiza a árvore quando arquivos mudam no disco
-        },
-        window = {
-          width = 34,
-          auto_expand_width = false, -- nunca redimensiona sozinho por causa de nome de arquivo comprido
-        },
-      })
-
-      -- Com `wrap = false` global, mover o cursor pra um nome de arquivo comprido
-      -- fazia o Vim rolar a janela horizontalmente pra manter o cursor visível —
-      -- dava a impressão da árvore inteira "pulando" pra esquerda/direita.
-      -- Ligando wrap só nessa janela, o texto quebra a linha em vez de rolar.
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "neo-tree",
-        callback = function()
-          vim.wo.wrap = true
-        end,
-      })
-
-      -- Abre automaticamente ao entrar no Neovim, se você abriu uma pasta (ex: `nvim .`).
-      -- Quando não há argumento nenhum (`nvim` sozinho), deixa a tela de abertura
-      -- pro alpha-nvim em vez de forçar a árvore de arquivos.
-      vim.api.nvim_create_autocmd("VimEnter", {
-        once = true,
-        callback = function()
-          if vim.fn.argc() > 0 and vim.fn.isdirectory(vim.fn.argv(0)) == 1 then
-            require("neo-tree.command").execute({ toggle = false, dir = vim.fn.getcwd() })
-          end
-        end,
-      })
-    end,
+    opts = {
+      explorer = {
+        replace_netrw = true, -- abre sozinho no lugar do netrw ao iniciar numa pasta
+      },
+    },
+    keys = {
+      { "<D-b>", toggle_explorer, desc = "Alternar painel de arquivos (Cmd+B)" },
+      { "<leader>e", toggle_explorer, desc = "Alternar painel de arquivos" },
+    },
   },
 
   -- Which-key: ao apertar <leader> e esperar, mostra um menu com todos os atalhos disponíveis.
@@ -117,7 +98,7 @@ return {
     },
   },
 
-  -- Ícones de arquivo usados por vários plugins acima (neo-tree, bufferline, lualine,
+  -- Ícones de arquivo usados por vários plugins acima (snacks, bufferline, lualine,
   -- telescope, alpha). O catppuccin (colorscheme.lua) tem integração nativa com o
   -- nvim-web-devicons e colore os ícones no tom do tema.
   {

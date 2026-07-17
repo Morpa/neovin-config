@@ -216,7 +216,7 @@ O resto da lista abaixo é referência — não precisa memorizar, só volta aqu
 ## Tema
 
 O tema é o **Catppuccin** (flavour `mocha`, escuro) — único colorscheme
-instalado, com integração nativa em quase todos os plugins (neo-tree, cmp,
+instalado, com integração nativa em quase todos os plugins (snacks, cmp,
 telescope, which-key, gitsigns, bufferline, treesitter, LSP, Mason,
 indent-blankline) e também nos ícones de arquivo (`nvim-web-devicons`).
 

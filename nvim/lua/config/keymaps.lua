@@ -1,5 +1,5 @@
 -- Atalhos de teclado. <leader> = barra de espaço (definido em options.lua)
--- Muitos desses atalhos só funcionam depois que os plugins carregarem (telescope, neo-tree etc.)
+-- Muitos desses atalhos só funcionam depois que os plugins carregarem (telescope, snacks etc.)
 local map = vim.keymap.set
 
 -- Movimentação entre janelas (splits) com Ctrl+hjkl, como em qualquer editor com painéis
@@ -21,9 +21,6 @@ map("n", "<leader>bd", ":bdelete<CR>", { desc = "Fechar buffer" })
 -- Salvar e sair
 map("n", "<leader>w", ":w<CR>", { desc = "Salvar arquivo" })
 map("n", "<leader>q", ":q<CR>", { desc = "Fechar janela" })
-
--- Painel de arquivos (neo-tree), equivalente ao painel de projeto do Zed
-map("n", "<leader>e", ":Neotree toggle<CR>", { desc = "Alternar painel de arquivos" })
 
 -- Busca fuzzy (telescope), equivalente ao Cmd+P / Cmd+Shift+F do Zed
 map("n", "<leader>ff", ":Telescope find_files<CR>", { desc = "Buscar arquivos" })
@@ -83,9 +80,6 @@ map("n", "N", [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('h
 
 -- Esc limpa o destaque da busca atual (:noh), além do comportamento normal do Esc
 map("n", "<Esc>", ":noh<CR>", { desc = "Limpar destaque de busca" })
-
--- Cmd+B esconde/mostra a árvore de arquivos lateral
-map("n", "<D-b>", ":Neotree toggle<CR>", { desc = "Alternar árvore de arquivos (Cmd+B)" })
 
 -- Cmd+Z desfaz, Cmd+Shift+Z refaz
 -- (Cmd+W fica por conta do Ghostty, que fecha a aba/surface; pra fechar o

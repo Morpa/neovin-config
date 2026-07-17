@@ -372,7 +372,7 @@ a verificação manual (Step 7) ainda pendente por um humano.
 - Consome: nenhuma das outras tasks.
 - Produz: `Snacks.explorer()` (função global exposta pelo plugin `folke/snacks.nvim` depois do `setup()`), usada pelo toggle de `Cmd+B` / `<leader>e`. Filetype do buffer do explorer: `"snacks_picker_list"` (usado no offset do bufferline).
 
-- [ ] **Step 1: Substituir o bloco do neo-tree em `ui.lua`**
+- [x] **Step 1: Substituir o bloco do neo-tree em `ui.lua`**
 
 Em `nvim/lua/plugins/ui.lua`, remova o bloco inteiro do `nvim-neo-tree/neo-tree.nvim` (da linha que começa em `-- Painel de arquivos lateral (árvore do projeto)...` até o fechamento `},` logo antes do bloco do which-key) e substitua por:
 
@@ -398,7 +398,7 @@ Em `nvim/lua/plugins/ui.lua`, remova o bloco inteiro do `nvim-neo-tree/neo-tree.
 
 Note que `toggle_explorer` ainda não existe — vem no próximo step.
 
-- [ ] **Step 2: Definir a função `toggle_explorer` no topo do arquivo**
+- [x] **Step 2: Definir a função `toggle_explorer` no topo do arquivo**
 
 No topo de `nvim/lua/plugins/ui.lua`, logo antes de `return {`, adicione:
 
@@ -418,7 +418,7 @@ local function toggle_explorer()
 end
 ```
 
-- [ ] **Step 3: Atualizar o offset do bufferline**
+- [x] **Step 3: Atualizar o offset do bufferline**
 
 Ainda em `nvim/lua/plugins/ui.lua`, no bloco `akinsho/bufferline.nvim`, troque:
 
@@ -446,7 +446,7 @@ por:
           },
 ```
 
-- [ ] **Step 4: Remover o mapeamento antigo de `Cmd+B` em `keymaps.lua`**
+- [x] **Step 4: Remover o mapeamento antigo de `Cmd+B` em `keymaps.lua`**
 
 Em `nvim/lua/config/keymaps.lua`, remova estas duas linhas (o toggle de `Cmd+B` agora vive dentro do plugin spec do snacks, feito na Step 1):
 
@@ -476,7 +476,7 @@ por:
 -- Muitos desses atalhos só funcionam depois que os plugins carregarem (telescope, snacks etc.)
 ```
 
-- [ ] **Step 5: Atualizar a integração do catppuccin**
+- [x] **Step 5: Atualizar a integração do catppuccin**
 
 Em `nvim/lua/plugins/colorscheme.lua`, troque:
 
@@ -492,7 +492,7 @@ por:
 
 E no comentário do topo do arquivo (linhas 2-4), troque `neo-tree` por `snacks` na lista de integrações.
 
-- [ ] **Step 6: Atualizar o comentário do `alpha.lua`**
+- [x] **Step 6: Atualizar o comentário do `alpha.lua`**
 
 Em `nvim/lua/plugins/alpha.lua`, troque o comentário (linha 3-4):
 
@@ -508,7 +508,7 @@ por:
 -- assume a tela é o explorer do snacks.nvim (replace_netrw, ver ui.lua).
 ```
 
-- [ ] **Step 7: Atualizar o comentário de exemplo em `options.lua`**
+- [x] **Step 7: Atualizar o comentário de exemplo em `options.lua`**
 
 Em `nvim/lua/config/options.lua`, no comentário sobre o título da janela (linhas 90-92), troque a menção ao neo-tree por um exemplo genérico:
 
@@ -526,7 +526,7 @@ por:
 -- nele), sempre mostra o nome da pasta do projeto (cwd).
 ```
 
-- [ ] **Step 8: Rodar sync do lazy.nvim (instala snacks.nvim, remove neo-tree/nui)**
+- [x] **Step 8: Rodar sync do lazy.nvim (instala snacks.nvim, remove neo-tree/nui)**
 
 ```bash
 nvim --headless "+Lazy! sync" +qa
@@ -534,15 +534,30 @@ nvim --headless "+Lazy! sync" +qa
 
 Expected: sem erro na saída. Depois, abra o Neovim e rode `:Lazy`, confirme que `snacks.nvim` está instalado e que `neo-tree.nvim` / `nui.nvim` não aparecem mais na lista (ou aparecem marcados como "not loaded"/removível — rode `:Lazy clean` se sobrar algo órfão).
 
-- [ ] **Step 9: Verificar sintaxe**
+> **Nota de execução:** rodado com `nvim --headless "+Lazy! install" +qa` seguido de
+> `nvim --headless "+Lazy! clean" +qa` em vez de `Lazy! sync`, pra evitar o problema já
+> visto na Task 3 (sync atualiza TODOS os plugins pro commit mais recente, não só
+> instala/remove os do spec). Resultado: `snacks.nvim` clonado, `neo-tree.nvim` e
+> `nui.nvim` removidos; `git diff nvim/lazy-lock.json` confirmou que nenhum outro plugin
+> teve o commit alterado.
+
+- [x] **Step 9: Verificar sintaxe**
 
 ```bash
 nvim --headless -u nvim/init.lua -c 'qa!'
 ```
 
-Expected: sem saída de erro.
+Expected: sem saída de erro. Confirmado: sem saída.
 
-- [ ] **Step 10: Verificação manual do explorer novo**
+- [x] **Step 10: Verificação manual do explorer novo** (parcial — ver nota)
+
+> **Nota de execução:** os itens 10.1-10.5 abaixo exigem visualizar a UI (icones, painel
+> abrindo/fechando, jump horizontal, dashboard do alpha) e não podem ser confirmados por
+> um agente headless. O que foi verificado sem interface: `Snacks` está definido e
+> `Snacks.explorer()` executa sem erro Lua (via `pcall` numa sessão headless), e abrir o
+> Neovim headless numa pasta ou sem argumento não produz mensagens de erro. **A
+> verificação visual completa (10.1-10.5) continua pendente e precisa ser feita por um
+> humano.**
 
 1. Rode `nvim ~/Documents/DEV/nvim-config` (ou qualquer outra pasta) e confirme que o explorer abre sozinho, do lado esquerdo, com ícones de arquivo, indicadores de git e diagnóstico visíveis.
 2. Aperte `Cmd+B` — o painel esconde. Aperte de novo — reabre.
@@ -550,11 +565,11 @@ Expected: sem saída de erro.
 4. Abra um arquivo com nome longo dentro da árvore e confirme que o nome não faz a tela "pular" horizontalmente de forma estranha (se acontecer, é o mesmo problema que o `wrap` resolvia pro neo-tree — nesse caso, volte aqui e registre o achado antes de prosseguir, já que este plano não cobre um fix pra isso).
 5. Rode `nvim` sem argumento nenhum — confirme que quem aparece é a tela do alpha (dashboard), não o explorer.
 
-- [ ] **Step 11: Atualizar a seção "Tema" do README**
+- [x] **Step 11: Atualizar a seção "Tema" do README**
 
 Em `README.md`, na seção `## Tema`, troque a lista de integrações (linha que cita "neo-tree, cmp, telescope, which-key, gitsigns, bufferline, treesitter, LSP, Mason, indent-blankline") trocando `neo-tree` por `snacks` (o explorer de arquivos).
 
-- [ ] **Step 12: Atualizar `nvim/cheatsheet.txt`**
+- [x] **Step 12: Atualizar `nvim/cheatsheet.txt`**
 
 Na seção `## arquivos-e-projeto`, troque:
 
@@ -568,9 +583,16 @@ por:
 Mostrar/esconder árvore de arquivos (Cmd+B) | <D-b>
 ```
 
-- [ ] **Step 13: Salvar**
+- [x] **Step 13: Salvar**
 
-Sem commit (repo não é git) — arquivos já salvos pelo editor. Se quiser manter uma cópia funcionando fora do symlink de teste, lembre que o README documenta o fluxo de backup via `rsync` (fora do escopo deste plano).
+> **Nota de execução:** ao contrário do previsto aqui, o repo É git — commit criado
+> normalmente (`4b6d15e`, "Trocar sidebar de neo-tree pra snacks.nvim explorer"), cobrindo
+> os 8 arquivos do escopo (`README.md`, `nvim/cheatsheet.txt`, `nvim/lazy-lock.json`,
+> `nvim/lua/config/keymaps.lua`, `nvim/lua/config/options.lua`, `nvim/lua/plugins/alpha.lua`,
+> `nvim/lua/plugins/colorscheme.lua`, `nvim/lua/plugins/ui.lua`). Ver
+> `.superpowers/sdd/task-4-report.md` para o relatório completo, incluindo a verificação
+> manual (Step 10) ainda pendente por um humano, e uma referência solta a "neo-tree" fora
+> do escopo (`nvim/lua/plugins/oil.lua:3`) encontrada mas não corrigida.
 
 ---
 
