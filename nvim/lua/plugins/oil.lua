@@ -1,6 +1,6 @@
 -- Oil: edita o sistema de arquivos como se fosse um buffer de texto normal —
 -- renomear, criar, apagar ou mover arquivos é só editar linhas e salvar (:w).
--- Complementa o neo-tree (árvore fixa) com uma edição rápida em float.
+-- Complementa o explorador do snacks.nvim (árvore fixa) com uma edição rápida em float.
 return {
   "stevearc/oil.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },

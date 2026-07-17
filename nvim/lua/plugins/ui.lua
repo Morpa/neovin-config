@@ -109,6 +109,7 @@ return {
         { "<leader>t", group = "Testes/Terminal" },
         { "<leader>x", group = "Diagnósticos" },
         { "<leader>b", group = "Buffers" },
+        { "<leader>u", group = "Interface" },
       },
     },
   },
