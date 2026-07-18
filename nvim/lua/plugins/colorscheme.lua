@@ -1,46 +1,39 @@
--- Catppuccin: único colorscheme da config (flavour "mocha", escuro). Além de
--- colorir o editor, integra nativamente com quase todos os outros plugins
--- (snacks, cmp, telescope, which-key, gitsigns, bufferline, treesitter,
--- LSP, Mason...) e aplica as cores do tema também nos
--- ícones (nvim-web-devicons), então não precisa de um tema de ícones à parte.
+-- Kanagawa: tema principal da configuração. Mantém o editor com um visual
+-- escuro e forte contraste, com destaque para syntax e integração com plugins
+-- como snacks, cmp, telescope, which-key, gitsigns, treesitter, LSP e Mason.
 return {
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "rebelot/kanagawa.nvim",
     lazy = false,    -- tema ativo, carrega logo na inicialização
     priority = 1000, -- antes de qualquer outro plugin, evita "flash" sem cor
-    opts = {
-      flavour = "mocha",
-      integrations = {
-        cmp = true,
-        gitsigns = true,
-        snacks = { enabled = true },
-        telescope = true,
-        which_key = true,
-        treesitter = true,
-        native_lsp = {
-          enabled = true,
-          virtual_text = {
-            errors = { "italic" },
-            hints = { "italic" },
-            warnings = { "italic" },
-            information = { "italic" },
-          },
-          underlines = {
-            errors = { "underline" },
-            hints = { "underline" },
-            warnings = { "underline" },
-            information = { "underline" },
+    config = function()
+      require("kanagawa").setup({
+        theme = "wave",
+        compile = false,
+        undercurl = true,
+        commentStyle = { italic = true },
+        functionStyle = {},
+        keywordStyle = { italic = true },
+        statementStyle = { bold = true },
+        typeStyle = {},
+        transparent = false,
+        dimInactive = false,
+        terminalColors = true,
+        colors = {
+          palette = {},
+          theme = {
+            all = {
+              ui = {
+                bg_gutter = "none",
+              },
+            },
           },
         },
-        mason = true,
-        bufferline = true,
-        illuminate = true,
-      },
-    },
-    config = function(_, opts)
-      require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin-mocha")
+        overrides = function()
+          return {}
+        end,
+      })
+      vim.cmd.colorscheme("kanagawa-wave")
     end,
   },
 }

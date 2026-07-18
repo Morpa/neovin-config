@@ -15,6 +15,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins", {
-  install = { colorscheme = { "catppuccin" } },
+  install = { colorscheme = { "kanagawa" } },
   checker = { enabled = true, notify = false }, -- avisa quando há updates de plugin, sem popup chato
 })

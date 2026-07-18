@@ -38,6 +38,12 @@ opt.incsearch = true
 opt.termguicolors = true       -- cores de 24-bit (necessário pra temas modernos)
 opt.background = "dark"
 opt.mouse = "a"                -- mouse funciona em todos os modos (clicar em abas, ícones, redimensionar painel etc.)
+vim.g.guifont = "Iosevka Nerd Font Propo:h16"
+if vim.g.neovide then
+  vim.o.guifont = vim.g.guifont
+elseif vim.fn.has("gui_running") == 1 then
+  vim.o.guifont = vim.g.guifont
+end
 
 -- Formato do cursor por modo: bloco parado no modo Normal (padrão do Vim),
 -- mas uma barra vertical piscando no modo de inserção e dentro do terminal —

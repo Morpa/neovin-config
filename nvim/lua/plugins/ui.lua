@@ -20,7 +20,7 @@ return {
     event = "VeryLazy",
     config = function()
       require("lualine").setup({
-        options = { theme = "catppuccin", globalstatus = true },
+        options = { theme = "kanagawa", globalstatus = true },
         sections = {
           lualine_y = {
             "progress", -- mantém o que já vinha por padrão (% do arquivo)
@@ -115,7 +115,7 @@ return {
   },
 
   -- Ícones de arquivo usados por vários plugins acima (snacks, bufferline, lualine,
-  -- telescope, alpha). O catppuccin (colorscheme.lua) tem integração nativa com o
+  -- telescope, alpha). O Kanagawa (colorscheme.lua) tem integração nativa com o
   -- nvim-web-devicons e colore os ícones no tom do tema.
   {
     "nvim-tree/nvim-web-devicons",
