@@ -6,28 +6,28 @@
 -- Neovim recente e causava um erro de highlight ("attempt to call method
 -- 'range'") ao editar arquivos.
 local languages = {
-  "typescript", "tsx", "javascript",
-  "rust", "go", "gomod", "gowork",
-  "lua", "json", "yaml", "markdown", "markdown_inline",
-  "html", "css", "bash",
+    "typescript", "tsx", "javascript",
+    "rust", "go", "gomod", "gowork",
+    "lua", "json", "yaml", "markdown", "markdown_inline",
+    "html", "css", "bash", "templ"
 }
 
 return {
-  "nvim-treesitter/nvim-treesitter",
-  branch = "main",
-  build = ":TSUpdate",
-  lazy = false,
-  config = function()
-    require("nvim-treesitter").setup()
-    require("nvim-treesitter").install(languages)
+    "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    build = ":TSUpdate",
+    lazy = false,
+    config = function()
+        require("nvim-treesitter").setup()
+        require("nvim-treesitter").install(languages)
 
-    -- Liga o highlight baseado em treesitter para essas linguagens (a branch
-    -- "main" não faz mais isso sozinha — precisa ser ligado por filetype)
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = languages,
-      callback = function()
-        pcall(vim.treesitter.start)
-      end,
-    })
-  end,
+        -- Liga o highlight baseado em treesitter para essas linguagens (a branch
+        -- "main" não faz mais isso sozinha — precisa ser ligado por filetype)
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = languages,
+            callback = function()
+                pcall(vim.treesitter.start)
+            end,
+        })
+    end,
 }
