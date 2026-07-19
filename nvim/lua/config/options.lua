@@ -21,6 +21,8 @@ opt.cursorline = true      -- destaca a linha onde está o cursor
 opt.wrap = false           -- não quebra linhas longas visualmente
 opt.scrolloff = 8          -- mantém 8 linhas de contexto ao rolar
 opt.signcolumn = "yes"     -- coluna fixa pra ícones de git/diagnóstico (evita "pulo" de layout)
+opt.fixendofline = true
+opt.endofline = true
 
 -- Indentação: 2 espaços, sem tabs reais (padrão comum em JS/TS; ajustado por linguagem depois se precisar)
 opt.tabstop = 2
@@ -49,11 +51,11 @@ end
 -- mas uma barra vertical piscando no modo de inserção e dentro do terminal —
 -- igual ao cursor "de texto" do Zed e de qualquer terminal de verdade.
 opt.guicursor = table.concat({
-    "n-v-c:block",                                     -- Normal/Visual/Command: bloco sólido
+    "n-v-c:block",                                       -- Normal/Visual/Command: bloco sólido
     "i-ci-ve:ver25-blinkwait300-blinkoff300-blinkon300", -- Inserção: barra piscando
-    "t:ver25-blinkwait300-blinkoff300-blinkon300",     -- Terminal: barra piscando
-    "r-cr:hor20",                                      -- Replace: sublinhado
-    "o:hor50",                                         -- Operator-pending: meio sublinhado
+    "t:ver25-blinkwait300-blinkoff300-blinkon300",       -- Terminal: barra piscando
+    "r-cr:hor20",                                        -- Replace: sublinhado
+    "o:hor50",                                           -- Operator-pending: meio sublinhado
 }, ",")
 
 -- Splits abrem do jeito "natural" (embaixo/direita), como a maioria dos editores modernos
