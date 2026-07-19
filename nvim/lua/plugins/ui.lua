@@ -24,12 +24,6 @@ return {
         sections = {
           lualine_y = {
             "progress", -- mantém o que já vinha por padrão (% do arquivo)
-            -- ícone clicável no canto direito da barra inferior, igual aos
-            -- ícones de painel que o Zed mostra na status bar
-            {
-              function() return " Terminal" end,
-              on_click = function() vim.cmd("ToggleTerm") end,
-            },
           },
         },
       })
@@ -106,10 +100,16 @@ return {
       spec = {
         { "<leader>f", group = "Buscar" },
         { "<leader>g", group = "Git" },
-        { "<leader>t", group = "Testes/Terminal" },
+        { "<leader>c", group = "Código" },
+        { "<leader>d", group = "Debug" },
+        { "<leader>h", group = "Hover/Help" },
+        { "<leader>l", group = "LSP" },
+        { "<leader>s", group = "Símbolos/Snippets" },
+        { "<leader>t", group = "Testes" },
         { "<leader>x", group = "Diagnósticos" },
         { "<leader>b", group = "Buffers" },
         { "<leader>u", group = "Interface" },
+        { "<leader>w", group = "Workspace" },
       },
     },
   },
@@ -121,5 +121,122 @@ return {
     "nvim-tree/nvim-web-devicons",
     lazy = true,
     opts = {},
+  },
+
+  -- Harpoon: marca/favorita arquivos pra acesso rápido (como bookmarks do VSCode)
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      local harpoon = require("harpoon")
+      harpoon:setup({})
+      local conf = require("telescope.config").values
+      local function toggle_telescope(harpoon_files)
+        local file_paths = {}
+        for _, item in ipairs(harpoon_files.items) do
+          table.insert(file_paths, item.value)
+        end
+        require("telescope.pickers")
+          .new({}, {
+            prompt_title = "Harpoon",
+            finder = require("telescope.finders").new_table({
+              results = file_paths,
+            }),
+            previewer = conf.file_previewer({}),
+            sorter = conf.generic_sorter({}),
+          })
+          :find_map_apply(require("telescope.actions"), require("telescope.actions").select_default)
+      end
+    end,
+    keys = {
+      { "<leader>ha", function() require("harpoon"):list():add() end, desc = "Harpoon add" },
+      { "<leader>hr", function() require("harpoon"):list():remove() end, desc = "Harpoon remove" },
+      { "<leader>hm", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, desc = "Harpoon menu" },
+      { "<leader>h1", function() require("harpoon"):list():select(1) end, desc = "Harpoon 1" },
+      { "<leader>h2", function() require("harpoon"):list():select(2) end, desc = "Harpoon 2" },
+      { "<leader>h3", function() require("harpoon"):list():select(3) end, desc = "Harpoon 3" },
+      { "<leader>h4", function() require("harpoon"):list():select(4) end, desc = "Harpoon 4" },
+    },
+  },
+
+  -- Smart-open: busca ultra-rápida com histórico e favoritosNui: componentes UI moderno (usado por vários plugins)
+  {
+    "MunifTanjim/nui.nvim",
+    lazy = true,
+  },
+
+  -- Noice: melhor renderização de comandos, search e mensagens
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+    config = function()
+      require("noice").setup({
+        lsp = {
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
+          },
+        },
+        routes = {
+          {
+            filter = {
+              event = "msg_show",
+              kind = "",
+              find = "written",
+            },
+            opts = { skip = true },
+          },
+        },
+        presets = {
+          bottom_search = true,
+          command_palette = true,
+          long_message_to_split = true,
+        },
+      })
+    end,
+    keys = {
+      { "<leader>nd", function() require("noice").dismiss() end, desc = "Descartar notificações" },
+      { "<leader>nh", function() require("noice").history() end, desc = "Histórico de mensagens" },
+    },
+  },
+
+  -- Notify: notificações melhores (integrada com Noice)
+  {
+    "rcarriga/nvim-notify",
+    config = function()
+      require("notify").setup({
+        background_colour = "#1a1a1a",
+        fps = 30,
+        icons = {
+          DEBUG = "🐛",
+          ERROR = "❌",
+          INFO = "ℹ️",
+          TRACE = "✓",
+          WARN = "⚠️",
+        },
+        level = vim.log.levels.WARN, -- só WARN e ERROR (silencia INFO)
+        minimum_width = 50,
+        render = "default",
+        stages = "static",
+        timeout = 4000, -- aumentado: mais tempo pra ver
+        top_down = true,
+      })
+      vim.notify = require("notify")
+      
+      -- Silencia notificações do LSP (diagnostics, progress)
+      local notify = require("notify")
+      vim.notify = function(msg, level, opts)
+        if msg:match("diagnostic") or msg:match("progress") or msg:match("Initializing") then
+          return -- ignora notificações chatas do LSP
+        end
+        notify(msg, level, opts)
+      end
+    end,
   },
 }

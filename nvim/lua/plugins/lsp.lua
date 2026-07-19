@@ -28,11 +28,20 @@ return {
         },
     },
     {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {
+            library = {
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
+    },
+    {
         -- A partir do Neovim 0.11, a API nativa vim.lsp.config/vim.lsp.enable substitui
         -- o antigo require("lspconfig").<server>.setup{}. Ainda dependemos deste plugin
         -- só pelas configurações prontas de cada servidor que ele traz (lsp/*.lua).
         "neovim/nvim-lspconfig",
-        dependencies = { "mason-lspconfig.nvim", "hrsh7th/cmp-nvim-lsp" },
+        dependencies = { "mason-lspconfig.nvim", "hrsh7th/cmp-nvim-lsp", "folke/lazydev.nvim" },
         config = function()
             -- cmp-nvim-lsp anuncia ao servidor que temos autocomplete "rico" disponível
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -50,17 +59,72 @@ return {
                 } or nil,
             })
             vim.lsp.enable({ "ts_ls", "rust_analyzer", "gopls", "lua_ls", "biome", "tailwindcss", "templ" })
+            
+            -- Habilita inlay hints (como VSCode mostra tipos e nomes de parâmetros)
+            vim.lsp.inlay_hint.enable(true)
+            
             -- Atalhos que só existem quando um LSP está ativo no buffer atual
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(event)
                     local map = function(keys, fn, desc)
                         vim.keymap.set("n", keys, fn, { buffer = event.buf, desc = desc })
                     end
+                    local imap = function(keys, fn, desc)
+                        vim.keymap.set("i", keys, fn, { buffer = event.buf, desc = desc })
+                    end
+                    
+                    -- Navegação e informações
                     map("gd", vim.lsp.buf.definition, "Ir para definição")
+                    map("gD", vim.lsp.buf.declaration, "Ir para declaração")
+                    map("gi", vim.lsp.buf.implementation, "Ir para implementação")
+                    map("gt", vim.lsp.buf.type_definition, "Ir para type definition")
                     map("gr", vim.lsp.buf.references, "Ver referências")
-                    map("K", vim.lsp.buf.hover, "Ver documentação")
+                    
+                    -- Hover com múltiplas alternativas e melhor tratamento de erros
+                    local function smart_hover()
+                        local clients = vim.lsp.get_active_clients({ bufnr = event.buf })
+                        if #clients == 0 then
+                            return  -- Silencia se não tiver LSP (menos intrusivo)
+                        end
+                        vim.lsp.buf.hover()
+                    end
+                    
+                    map("K", smart_hover, "Ver documentação (Hover LSP)")
+                    map("<leader>hh", smart_hover, "Ver documentação")
+                    map("<leader>H", function()
+                        -- Alternativa: hover + seletor de provider (se usar hover.nvim)
+                        if pcall(require, "hover") then
+                            require("hover").hover_select()
+                        else
+                            smart_hover()
+                        end
+                    end, "Hover (seletar provider)")
+                    imap("<C-k>", vim.lsp.buf.signature_help, "Ver assinatura")
+                    
+                    -- Refatoração e ações
                     map("<leader>rn", vim.lsp.buf.rename, "Renomear símbolo")
                     map("<leader>ca", vim.lsp.buf.code_action, "Ações de código")
+                    map("<leader>cA", function()
+                        vim.lsp.buf.code_action({
+                            context = { diagnostics = vim.lsp.diagnostic.get_line_diagnostics() },
+                            apply = true,
+                        })
+                    end, "Aplicar ação automática")
+                    
+                    -- Workspace symbols e formatting
+                    map("<leader>ws", vim.lsp.buf.workspace_symbol, "Símbolos do workspace")
+                    map("<leader>ds", vim.lsp.buf.document_symbol, "Símbolos do documento")
+                    map("<leader>cf", vim.lsp.buf.format, "Formatar documento")
+                    
+                    -- Inlay hints toggle
+                    map("<leader>ui", function()
+                        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+                    end, "Alternar inlay hints")
+                    
+                    -- Diagnósticos
+                    map("<leader>xd", function()
+                        vim.diagnostic.setloclist()
+                    end, "Listar diagnósticos locais")
                 end,
             })
         end,

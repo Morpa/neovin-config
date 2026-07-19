@@ -33,9 +33,44 @@ map("n", "<leader>xx", ":Trouble diagnostics toggle<CR>", { desc = "Alternar lis
 map("n", "]d", vim.diagnostic.goto_next, { desc = "Próximo diagnóstico" })
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Diagnóstico anterior" })
 
--- Terminal integrado (toggleterm), equivalente ao terminal embutido do Zed
-map("n", "<leader>t", ":ToggleTerm<CR>", { desc = "Alternar terminal" })
-map("t", "<Esc>", [[<C-\><C-n>]], { desc = "Sair do modo terminal" })
+-- LSP avançado (chamados pela keybind quando o LSP está ativo, mas deixamos aqui pro which-key)
+-- Ver lsp.lua pra mapeamentos reais (gd, gr, K, etc.)
+map("n", "<leader>lm", ":Mason<CR>", { desc = "Gerenciador de LSP/formatadores" })
+
+-- Git avançado (além dos basics do neogit)
+map("n", "<leader>gh", ":Telescope git_branches<CR>", { desc = "Branches do Git" })
+map("n", "<leader>gc", ":Telescope git_commits<CR>", { desc = "Commits do Git" })
+map("n", "<leader>gs", ":Telescope git_stash<CR>", { desc = "Stash do Git" })
+
+-- Snippets e autocomplete
+map("n", "<leader>se", ":Telescope luasnip<CR>", { desc = "Explorar snippets" })
+
+-- Marca/bookmarks (usando snacks ou built-in do Vim)
+map("n", "m<space>", ":BookmarksList<CR>", { desc = "Listar marcas", noremap = true })
+
+-- Atalhos em modo insert (completions avançadas já no arquivo)
+map("i", "<C-x><C-k>", "<C-o>:lua vim.lsp.buf.signature_help()<CR>", { noremap = true, desc = "Ver assinatura LSP" })
+map("i", "<C-x><C-d>", "<C-o>:lua vim.lsp.buf.hover()<CR>", { noremap = true, desc = "Ver docs LSP" })
+
+-- Grupo de atalhos para DOCUMENTAÇÃO/HOVER (mais opções que K que às vezes pode não funcionar)
+-- <leader>h = tudo relacionado a help/hover
+map("n", "<leader>hh", function()
+  local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+  if #clients == 0 then
+    vim.notify("⚠️  Nenhum LSP ativo neste buffer", vim.log.levels.WARN)
+    return
+  end
+  vim.lsp.buf.hover()
+end, { desc = "Hover/Documentação (LSP)" })
+
+map("n", "<leader>hs", vim.lsp.buf.signature_help, { desc = "Signature help" })
+map("n", "<leader>hi", vim.lsp.buf.implementation, { desc = "Implementação" })
+map("n", "<leader>ht", vim.lsp.buf.type_definition, { desc = "Type definition" })
+
+-- Alternativas também em modo visual (pra quando tiver selecionado)
+map("v", "<leader>hh", function()
+  vim.lsp.buf.hover()
+end, { desc = "Hover/Documentação" })
 
 -- Mantém o texto selecionado ao indentar com < e > (sem isso, cada indent te tira da seleção)
 map("v", "<", "<gv")
@@ -46,30 +81,33 @@ map("v", ">", ">gv")
 -- Funcionam tanto no Ghostty (protocolo de teclado do Kitty) quanto seriam
 -- usados no Neovide; não dependem de GUI.
 
--- Cmd+C / Cmd+V / Cmd+S como em qualquer app do macOS (por padrão Vim usa outras teclas pra isso)
-map("v", "<D-c>", '"+y', { desc = "Copiar (Cmd+C)" })
-map({ "n", "v" }, "<D-v>", '"+p', { desc = "Colar (Cmd+V)" })
-map("i", "<D-v>", "<C-r>+", { desc = "Colar (Cmd+V) no modo inserção" })
-map({ "n", "i", "v" }, "<D-s>", "<Esc>:w<CR>", { desc = "Salvar (Cmd+S)" })
-map({ "n", "i", "v" }, "<D-q>", "<Esc>:qa<CR>", { desc = "Sair (Cmd+Q)" })
+-- Ctrl+C / Ctrl+V / Ctrl+S para copiar/colar/salvar — funciona em qualquer OS
+map("v", "<C-c>", '"+y', { desc = "Copiar (Ctrl+C)" })
+map({ "n", "v" }, "<C-v>", '"+p', { desc = "Colar (Ctrl+V)" })
+map("i", "<C-v>", "<C-r>+", { desc = "Colar (Ctrl+V) no modo inserção" })
+map({ "n", "i", "v" }, "<C-s>", "<Esc>:w<CR>", { desc = "Salvar (Ctrl+S)" })
 
--- Cmd+/ comenta/descomenta a linha (ou a seleção) — usa o suporte nativo do próprio Neovim.
--- Em teclado ABNT, "/" só sai com Shift, então esse combo vira fisicamente
--- Cmd+Shift+/ (= Cmd+?), que o macOS intercepta globalmente pra abrir a busca
--- do menu Help ANTES de chegar no Ghostty/Neovim (ver instruções no README pra
--- liberar isso em Ajustes do Sistema > Teclado > Atalhos de Teclado > Atalhos
--- de App). Por isso <leader>/ existe como alternativa que sempre funciona.
-map("n", "<D-/>", "gcc", { desc = "Comentar/descomentar linha (Cmd+/)", remap = true })
-map("v", "<D-/>", "gc", { desc = "Comentar/descomentar seleção (Cmd+/)", remap = true })
+-- Ctrl+A seleciona tudo (select all) — igual ao VSCode e qualquer editor moderno
+map("n", "<C-a>", "ggVG", { desc = "Selecionar tudo (Ctrl+A)" })
+map("i", "<C-a>", "<Esc>ggVG", { desc = "Selecionar tudo (Ctrl+A)" })
+map("v", "<C-a>", "ggVG", { desc = "Selecionar tudo (Ctrl+A)" })
+
+-- Atalhos de seleção adicionais (úteis no dia-a-dia)
+map("n", "<leader>sa", "ggVG", { desc = "Selecionar tudo" })
+map("v", "<leader>sa", "ggVG", { desc = "Selecionar tudo (reseleciona)" })
+
+-- Ctrl+/ comenta/descomenta a linha (ou a seleção) — usa o suporte nativo do próprio Neovim.
+map("n", "<C-/>", "gcc", { desc = "Comentar/descomentar linha (Ctrl+/)", remap = true })
+map("v", "<C-/>", "gc", { desc = "Comentar/descomentar seleção (Ctrl+/)", remap = true })
 map("n", "<leader>/", "gcc", { desc = "Comentar/descomentar linha", remap = true })
 map("v", "<leader>/", "gc", { desc = "Comentar/descomentar seleção", remap = true })
 
--- Cmd+P busca arquivo, Cmd+F busca dentro do arquivo atual, Cmd+Shift+F busca
+-- Ctrl+P busca arquivo, Ctrl+F busca dentro do arquivo atual, Ctrl+Shift+F busca
 -- texto no projeto — igual ao Zed
-map("n", "<D-p>", ":Telescope find_files<CR>", { desc = "Buscar arquivo (Cmd+P)" })
-map("n", "<D-f>", "/", { desc = "Buscar no arquivo atual, inline (Cmd+F)" })
-map("n", "<D-F>", ":Telescope live_grep<CR>", { desc = "Buscar texto no projeto (Cmd+Shift+F)" })
-map("n", "<D-P>", ":Telescope commands<CR>", { desc = "Paleta de comandos (Cmd+Shift+P)" })
+map("n", "<C-p>", ":Telescope find_files<CR>", { desc = "Buscar arquivo (Ctrl+P)" })
+map("n", "<C-f>", "/", { desc = "Buscar no arquivo atual, inline (Ctrl+F)" })
+map("n", "<C-S-f>", ":Telescope live_grep<CR>", { desc = "Buscar texto no projeto (Ctrl+Shift+F)" })
+map("n", "<C-S-p>", ":Telescope commands<CR>", { desc = "Paleta de comandos (Ctrl+Shift+P)" })
 
 -- n/N navegam pra próxima/anterior ocorrência da busca; o hlslens só
 -- adiciona o contador "3/12" perto do cursor (o comportamento de navegação
@@ -81,13 +119,11 @@ map("n", "N", [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('h
 -- Esc limpa o destaque da busca atual (:noh), além do comportamento normal do Esc
 map("n", "<Esc>", ":noh<CR>", { desc = "Limpar destaque de busca" })
 
--- Cmd+Z desfaz, Cmd+Shift+Z refaz
--- (Cmd+W fica por conta do Ghostty, que fecha a aba/surface; pra fechar o
--- buffer dentro do Neovim use <leader>bd.)
-map({ "n", "v" }, "<D-z>", "u", { desc = "Desfazer (Cmd+Z)" })
-map({ "n", "v" }, "<D-Z>", "<C-r>", { desc = "Refazer (Cmd+Shift+Z)" })
-map("i", "<D-z>", "<Esc>u", { desc = "Desfazer (Cmd+Z)" })
-map("i", "<D-Z>", "<Esc><C-r>", { desc = "Refazer (Cmd+Shift+Z)" })
+-- Ctrl+Z desfaz, Ctrl+Shift+Z refaz
+map({ "n", "v" }, "<C-z>", "u", { desc = "Desfazer (Ctrl+Z)" })
+map({ "n", "v" }, "<C-S-z>", "<C-r>", { desc = "Refazer (Ctrl+Shift+Z)" })
+map("i", "<C-z>", "<Esc>u", { desc = "Desfazer (Ctrl+Z)" })
+map("i", "<C-S-z>", "<Esc><C-r>", { desc = "Refazer (Ctrl+Shift+Z)" })
 
 -- Option+Cima/Baixo move a linha (ou seleção) inteira pra cima/baixo — igual ao Zed/VSCode
 map("n", "<M-Up>", ":move .-2<CR>==", { desc = "Mover linha pra cima" })
@@ -99,15 +135,15 @@ map("v", "<M-Down>", ":move '>+1<CR>gv=gv", { desc = "Mover seleção pra baixo"
 map("n", "<M-S-Down>", ":t.<CR>", { desc = "Duplicar linha pra baixo" })
 map("v", "<M-S-Down>", ":t'><CR>`[V`]", { desc = "Duplicar seleção pra baixo" })
 
--- Cmd+] / Cmd+[ indenta/desindenta, mantendo a seleção
-map("v", "<D-]>", ">gv", { desc = "Indentar seleção (Cmd+])" })
-map("v", "<D-[>", "<gv", { desc = "Desindentar seleção (Cmd+[)" })
-map("n", "<D-]>", ">>", { desc = "Indentar linha (Cmd+])" })
-map("n", "<D-[>", "<<", { desc = "Desindentar linha (Cmd+[)" })
+-- Ctrl+] / Ctrl+[ indenta/desindenta, mantendo a seleção
+map("v", "<C-]>", ">gv", { desc = "Indentar seleção (Ctrl+])" })
+map("v", "<C-[>", "<gv", { desc = "Desindentar seleção (Ctrl+[)" })
+map("n", "<C-]>", ">>", { desc = "Indentar linha (Ctrl+])" })
+map("n", "<C-[>", "<<", { desc = "Desindentar linha (Ctrl+[)" })
 
--- Cmd+1 até Cmd+9 pula direto pra aba N, igual ao Zed
+-- Ctrl+1 até Ctrl+9 pula direto pra aba N
 for i = 1, 9 do
-  map("n", "<D-" .. i .. ">", function()
+  map("n", "<C-" .. i .. ">", function()
     require("bufferline").go_to(i, true)
   end, { desc = "Ir para aba " .. i })
 end

@@ -3,10 +3,11 @@ return {
   "hrsh7th/nvim-cmp",
   event = "InsertEnter",
   dependencies = {
-    "hrsh7th/cmp-nvim-lsp", -- fonte: sugestões vindas do LSP
-    "hrsh7th/cmp-buffer",   -- fonte: palavras já usadas no buffer atual
-    "hrsh7th/cmp-path",     -- fonte: caminhos de arquivo
-    "L3MON4D3/LuaSnip",     -- motor de snippets (necessário pro cmp expandir snippets do LSP)
+    "hrsh7th/cmp-nvim-lsp",     -- fonte: sugestões vindas do LSP
+    "hrsh7th/cmp-buffer",        -- fonte: palavras já usadas no buffer atual
+    "hrsh7th/cmp-path",          -- fonte: caminhos de arquivo
+    "hrsh7th/cmp-nvim-lua",      -- fonte: Lua API (pro init.lua)
+    "L3MON4D3/LuaSnip",          -- motor de snippets (necessário pro cmp expandir snippets do LSP)
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets", -- coleção pronta de snippets (JS, Python, etc.)
   },
@@ -66,11 +67,53 @@ return {
       }),
       sources = cmp.config.sources({
         { name = "nvim_lsp" },
+        { name = "nvim_lua" },
         { name = "luasnip" },
       }, {
         { name = "buffer" },
         { name = "path" },
       }),
+      formatting = {
+        format = function(entry, vim_item)
+          -- Adiciona ícones de tipo (como em IDEs modernas)
+          local kind_icons = {
+            Text = "📝",
+            Method = "🔧",
+            Function = "ƒ",
+            Constructor = "🔨",
+            Field = "📍",
+            Variable = "📦",
+            Class = "🏛️",
+            Interface = "🔌",
+            Module = "📦",
+            Property = "🎯",
+            Unit = "⚙️",
+            Value = "💾",
+            Enum = "📋",
+            Keyword = "🔑",
+            Snippet = "✂️",
+            Color = "🎨",
+            File = "📄",
+            Reference = "📚",
+            Folder = "📁",
+            EnumMember = "👥",
+            Constant = "🔴",
+            Struct = "🏗️",
+            Event = "📡",
+            Operator = "➕",
+            TypeParameter = "🔤",
+          }
+          vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind] or "", vim_item.kind)
+          vim_item.menu = ({
+            nvim_lsp = "[LSP]",
+            nvim_lua = "[Lua]",
+            luasnip = "[Snippet]",
+            buffer = "[Buffer]",
+            path = "[Path]",
+          })[entry.source.name]
+          return vim_item
+        end,
+      },
     })
   end,
 }
