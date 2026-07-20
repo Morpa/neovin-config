@@ -20,11 +20,21 @@ return {
         dependencies = { "mason.nvim", "neovim/nvim-lspconfig" },
         opts = {
             -- Servidores instalados automaticamente pelo Mason na primeira vez.
-            -- ts_ls = TypeScript/JavaScript, rust_analyzer = Rust, gopls = Go, lua_ls = config do próprio nvim.
+            -- ts_ls = TypeScript/JavaScript (cobre React e Next.js também, não têm LSP próprio)
+            -- rust_analyzer = Rust, gopls = Go, lua_ls = config do próprio nvim.
             -- biome = lint/diagnostics do Biome (formatação fica por conta do conform.nvim)
             -- tailwindcss = autocomplete de classes + hover com o CSS gerado (só ativa em projetos com config do Tailwind)
             -- templ = LSP do a-h/templ (autocomplete, definição, formatação em ficheiros .templ)
-            ensure_installed = { "ts_ls", "rust_analyzer", "gopls", "lua_ls", "biome", "tailwindcss", "templ" },
+            -- cssls/html = CSS e HTML puro. astro = Astro. vue_ls = Vue (sucessor do "volar", deprecated)
+            -- emmet_ls = abreviações Emmet (div.class>ul>li*3) em html/css/jsx/tsx/vue/astro
+            -- marksman = Markdown. yamlls = YAML.
+            -- dockerls/docker_compose_language_service = Dockerfile e docker-compose.yml
+            -- just = Justfile (filetype "just" já reconhecido nativamente pelo Neovim 0.12)
+            ensure_installed = {
+                "ts_ls", "rust_analyzer", "gopls", "lua_ls", "biome", "tailwindcss", "templ",
+                "cssls", "html", "astro", "vue_ls", "emmet_ls", "marksman", "yamlls",
+                "dockerls", "docker_compose_language_service", "just",
+            },
         },
     },
     {
@@ -58,7 +68,11 @@ return {
                     tsserver = { path = global_tsserver },
                 } or nil,
             })
-            vim.lsp.enable({ "ts_ls", "rust_analyzer", "gopls", "lua_ls", "biome", "tailwindcss", "templ" })
+            vim.lsp.enable({
+                "ts_ls", "rust_analyzer", "gopls", "lua_ls", "biome", "tailwindcss", "templ",
+                "cssls", "html", "astro", "vue_ls", "emmet_ls", "marksman", "yamlls",
+                "dockerls", "docker_compose_language_service", "just",
+            })
             
             -- Habilita inlay hints (como VSCode mostra tipos e nomes de parâmetros)
             vim.lsp.inlay_hint.enable(true)
