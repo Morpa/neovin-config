@@ -19,6 +19,11 @@ return {
         "williamboman/mason-lspconfig.nvim",
         dependencies = { "mason.nvim", "neovim/nvim-lspconfig" },
         opts = {
+            -- Desligado porque o mason-lspconfig chamaria vim.lsp.enable() aqui,
+            -- antes do nosso vim.lsp.config("astro", {tsdk=...}) em nvim-lspconfig
+            -- rodar — isso fazia o astro-ls receber o initialize sem o tsdk e
+            -- falhar. Quem ativa os servidores é o vim.lsp.enable() manual abaixo.
+            automatic_enable = false,
             -- Servidores instalados automaticamente pelo Mason na primeira vez.
             -- ts_ls = TypeScript/JavaScript (cobre React e Next.js também, não têm LSP próprio)
             -- rust_analyzer = Rust, gopls = Go, lua_ls = config do próprio nvim.
@@ -66,6 +71,16 @@ return {
             vim.lsp.config("ts_ls", {
                 init_options = vim.fn.filereadable(global_tsserver) == 1 and {
                     tsserver = { path = global_tsserver },
+                } or nil,
+            })
+            -- O LSP do Astro também exige typescript.tsdk (diretório com
+            -- tsserverlibrary.js) mesmo em arquivos sem TS local; sem isso o
+            -- servidor recusa inicializar com "The typescript.tsdk init
+            -- option is required".
+            local global_tsdk = vim.fn.fnamemodify(global_tsserver, ":h")
+            vim.lsp.config("astro", {
+                init_options = vim.fn.filereadable(global_tsserver) == 1 and {
+                    typescript = { tsdk = global_tsdk },
                 } or nil,
             })
             vim.lsp.enable({
