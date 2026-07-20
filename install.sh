@@ -37,13 +37,17 @@ else
   echo "npm não encontrado — instale o Node.js (ex: via fnm/nvm) e rode 'npm install -g typescript@5' depois."
 fi
 
-echo "==> Copiando configuração para $NVIM_CONFIG_DIR..."
-if [ -e "$NVIM_CONFIG_DIR" ] || [ -L "$NVIM_CONFIG_DIR" ]; then
+echo "==> Linkando configuração para $NVIM_CONFIG_DIR..."
+if [ -L "$NVIM_CONFIG_DIR" ] && [ "$(readlink "$NVIM_CONFIG_DIR")" = "$REPO_DIR/nvim" ]; then
+  echo "    Já está linkado corretamente, pulando."
+elif [ -e "$NVIM_CONFIG_DIR" ] || [ -L "$NVIM_CONFIG_DIR" ]; then
   backup="$NVIM_CONFIG_DIR.bak.$(date +%Y%m%d%H%M%S)"
   echo "    Já existe uma config em $NVIM_CONFIG_DIR — movendo para $backup"
   mv "$NVIM_CONFIG_DIR" "$backup"
+  ln -s "$REPO_DIR/nvim" "$NVIM_CONFIG_DIR"
+else
+  ln -s "$REPO_DIR/nvim" "$NVIM_CONFIG_DIR"
 fi
-cp -R "$REPO_DIR/nvim" "$NVIM_CONFIG_DIR"
 
 echo "==> Instalando plugins (lazy.nvim) e parsers do treesitter..."
 nvim --headless "+Lazy! sync" +qa
