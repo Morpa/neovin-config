@@ -15,6 +15,9 @@ vim.o.updatetime = 300 -- ms até disparar CursorHold
 
 vim.api.nvim_create_autocmd("CursorHold", {
     callback = function()
-        vim.lsp.buf.hover()
+        local clients = vim.lsp.get_clients({ bufnr = 0, method = "textDocument/hover" })
+        if #clients > 0 then
+            vim.lsp.buf.hover()
+        end
     end,
 })
