@@ -32,12 +32,12 @@ return {
             -- templ = LSP do a-h/templ (autocomplete, definição, formatação em ficheiros .templ)
             -- cssls/html = CSS e HTML puro. astro = Astro. vue_ls = Vue (sucessor do "volar", deprecated)
             -- emmet_ls = abreviações Emmet (div.class>ul>li*3) em html/css/jsx/tsx/vue/astro
-            -- marksman = Markdown. yamlls = YAML.
+            -- marksman = Markdown. yamlls = YAML. jsonls = JSON (package.json, tsconfig.json etc.)
             -- dockerls/docker_compose_language_service = Dockerfile e docker-compose.yml
             -- just = Justfile (filetype "just" já reconhecido nativamente pelo Neovim 0.12)
             ensure_installed = {
                 "ts_ls", "rust_analyzer", "gopls", "lua_ls", "biome", "tailwindcss", "templ",
-                "cssls", "html", "astro", "vue_ls", "emmet_ls", "marksman", "yamlls",
+                "cssls", "html", "astro", "vue_ls", "emmet_ls", "marksman", "yamlls", "jsonls",
                 "dockerls", "docker_compose_language_service", "just",
             },
         },
@@ -85,7 +85,7 @@ return {
             })
             vim.lsp.enable({
                 "ts_ls", "rust_analyzer", "gopls", "lua_ls", "biome", "tailwindcss", "templ",
-                "cssls", "html", "astro", "vue_ls", "emmet_ls", "marksman", "yamlls",
+                "cssls", "html", "astro", "vue_ls", "emmet_ls", "marksman", "yamlls", "jsonls",
                 "dockerls", "docker_compose_language_service", "just",
             })
             
