@@ -17,6 +17,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
     callback = function()
         local clients = vim.lsp.get_clients({ bufnr = 0, method = "textDocument/hover" })
         if #clients > 0 then
+            -- Para mostrar sempre a documentacao
             -- vim.lsp.buf.hover()
         end
     end,
